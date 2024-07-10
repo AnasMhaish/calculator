@@ -8,7 +8,6 @@ const Calculator: React.FC = () => {
   const [expressionEvaluated, setExpressionEvaluated] = useState(false);
 
   const handleButtonClick = (value: string) => {
-    console.log(value);
     if (expression === "0") {
       if (value === ".")
         setExpression((prevExpression) => prevExpression + value);
@@ -20,9 +19,7 @@ const Calculator: React.FC = () => {
       setExpression(value);
       setExpressionEvaluated(false);
       return;
-    }
-    else
-        setExpressionEvaluated(false);
+    } else setExpressionEvaluated(false);
 
     if (
       value === "." &&
@@ -45,12 +42,29 @@ const Calculator: React.FC = () => {
 
   const handleCalculate = () => {
     try {
-      console.log("=");
-      const result = eval(expression);
+      let modifiedExpression = expression;
+
+      modifiedExpression = modifiedExpression.replace(
+        /\*-([0-9])/g,
+        "*(-1)*$1"
+      );
+      modifiedExpression = modifiedExpression.replace(
+        /\/-([0-9])/g,
+        "/(-1)/$1"
+      );
+
+      modifiedExpression = modifiedExpression.replace(/[-+*/]+/g, (match) => {
+        if (match.length > 1) {
+          return match.slice(-1);
+        } else {
+          return match;
+        }
+      });
+
+      const result = eval(modifiedExpression);
       setExpression(result.toString());
       setExpressionEvaluated(true);
     } catch (error) {
-      console.error(expression);
       setExpression("Error");
       setExpressionEvaluated(false);
     }
