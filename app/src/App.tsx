@@ -1,4 +1,3 @@
-import React from "react";
 import Calculator from "./components/Calculator"; // Import the Calculator component
 
 import "./App.css";
