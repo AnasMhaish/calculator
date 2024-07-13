@@ -2,10 +2,17 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
-import MainLoader from "./components/MainLoader.tsx";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+
+const router = createBrowserRouter([
+  {
+    path: "/calculator/",
+    element: <App />,
+  }
+]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.Fragment>
-      <App />
+      <RouterProvider router={router}/>
   </React.Fragment>
 );
